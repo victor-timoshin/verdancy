@@ -1,0 +1,16 @@
+table {
+	width: 100%;
+	border-spacing: 0;
+}
+
+.table-scrollable {
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+}
+
+.table-scrollable__body {
+	height: 100px;
+	overflow-y: auto;
+	overflow-x: hidden;
+}

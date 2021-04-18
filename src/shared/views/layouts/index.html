@@ -1,0 +1,21 @@
+<!DOCTYPE HTML>
+
+<html lang="ru" dir="ltr">
+	<head>
+		<link rel="preconnect" href="https://fonts.gstatic.com" />
+		<link href="https://fonts.googleapis.com/css?family=Raleway&text=Verdancy" rel="stylesheet" type="text/css" />
+		<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;700&display=swap" rel="stylesheet" type="text/css" />
+
+		<% for (var file in htmlWebpackPlugin.files.css) { %>
+			<link rel="stylesheet" href="<%= htmlWebpackPlugin.options.urlContent(htmlWebpackPlugin.files.css[file]) %>" />
+		<% } %>
+	</head>
+
+	<body>
+		<div id="root"></div>
+
+		<% for (var file in htmlWebpackPlugin.files.js) { %>
+			<script src="<%= htmlWebpackPlugin.options.urlContent(htmlWebpackPlugin.files.js[file]) %>"></script>
+		<% } %>
+	</body>
+</html>

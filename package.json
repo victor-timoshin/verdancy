@@ -1,0 +1,84 @@
+{
+	"name": "verdancy",
+	"version": "0.5.2",
+	"description": "",
+	"license": "MIT",
+	"engines": {
+		"node": "14.15.3",
+		"npm": "7.10.0"
+	},
+	"author": {
+		"name": "Victor Timoshin",
+		"email": "victor-timoshin@hotmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/victor-timoshin/verdancy.git"
+	},
+	"bugs": {
+		"url": "https://github.com/victor-timoshin/verdancy/issues"
+	},
+	"keywords": [
+		"webpack",
+		"node",
+		"typescript",
+		"scss",
+		"vue"
+	],
+	"scripts": {
+		"clean": "node_modules/.bin/ts-node -P tsconfig.json ./bin/clean.ts",
+		"build-server:dev": "cross-env NODE_ENV=development AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.server.ts",
+		"build-server": "cross-env NODE_ENV=production AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.server.ts",
+		"build-client:dev": "cross-env NODE_ENV=development AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.ts",
+		"build-client": "cross-env NODE_ENV=production AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.ts",
+		"build:dev": "npm run clean && npm run build-client:dev && npm run build-server:dev",
+		"build": "npm run clean && npm run build-client && npm run build-server",
+		"start-watch": "npm run build:dev && concurrently \"node_modules/.bin/ts-node -P tsconfig.json ./bin/server/hotreload.ts\" \"nodemon ./bin/server/index.ts --watch dist -e js\" --kill-others",
+		"start": "npm run build && node_modules/.bin/ts-node -P tsconfig.json -r tsconfig-paths/register ./bin/server/index.ts",
+		"test": "jest"
+	},
+	"dependencies": {
+		"axios": "^0.21.1",
+		"bufferutil": "^4.0.3",
+		"cors": "^2.8.5",
+		"socket.io": "^4.0.1",
+		"socket.io-client": "^4.0.1",
+		"strict-event-emitter-types": "^2.0.0",
+		"underscore": "^1.13.1",
+		"utf-8-validate": "^5.0.4",
+		"vue": "^3.0.11",
+		"vue-class-component": "^8.0.0-rc.1",
+		"vue-router": "^4.0.6",
+		"ws": "^7.4.4"
+	},
+	"devDependencies": {
+		"@types/node": "^14.14.41",
+		"@types/underscore": "^1.11.1",
+		"@types/webpack-env": "^1.16.0",
+		"@types/webpack-merge": "^5.0.0",
+		"@types/ws": "^7.4.1",
+		"@vue/compiler-sfc": "^3.0.11",
+		"autoprefixer": "^10.2.5",
+		"compression-webpack-plugin": "^7.1.2",
+		"concurrently": "^6.0.2",
+		"cross-env": "^7.0.3",
+		"css-loader": "^5.2.2",
+		"html-webpack-plugin": "^5.3.1",
+		"mini-css-extract-plugin": "^1.4.1",
+		"nodemon": "^2.0.7",
+		"postcss-loader": "^5.2.0",
+		"sass": "^1.32.10",
+		"sass-loader": "^11.0.1",
+		"style-loader": "^2.0.0",
+		"ts-loader": "^8.1.0",
+		"ts-node": "^9.1.1",
+		"tsconfig-paths": "^3.9.0",
+		"typescript": "^4.2.4",
+		"vue-loader": "^16.2.0",
+		"vue-template-compiler": "^2.6.12",
+		"webpack": "^5.33.2",
+		"webpack-dev-server": "^3.11.2",
+		"webpack-merge": "^5.7.3",
+		"webpack-node-externals": "^2.5.2"
+	}
+}

@@ -1,0 +1,26 @@
+.navbar {
+	list-style: none;
+	display: flex;
+	flex-direction: row;
+	padding: 0;
+}
+
+.navbar__item {
+	&:not(:last-child) {
+		margin-right: 1em;
+	}
+}
+
+.navbar__item-router-link {
+	color: var(--router-link);
+	font-size: 12px;
+	font-weight: 800;
+	text-decoration: none;
+	text-transform: uppercase;
+	letter-spacing: .03em;
+}
+
+.navbar__item-router-link--active,
+.navbar__item-router-link--exact-active {
+	color: var(--router-link-active);
+}
