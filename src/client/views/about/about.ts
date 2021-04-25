@@ -2,6 +2,7 @@
 
 import { defineComponent } from 'vue';
 import Dropdown from '@components/dropdown/dropdown.vue';
+import { Methodology } from '@timcowebapps/common.ooscss';
 import { api } from '../../../core/_exports';
 
 export default defineComponent({
@@ -13,6 +14,10 @@ export default defineComponent({
 
 	data(): any {
 		return {
+			viewstyle: {
+				stylesheet: require('./../../entry.scss').default,
+				bem: Methodology.Bem.Entities
+			},
 			binanceDropdownSymbols: {
 				placeholder: '--Please Select--',
 				options: [{

@@ -1,6 +1,7 @@
 'use strict';
 
 import { defineComponent } from 'vue';
+import { Methodology } from '@timcowebapps/common.ooscss';
 import { RouteDataset } from '../../../../common/routedataset';
 
 export default defineComponent({
@@ -13,8 +14,9 @@ export default defineComponent({
 					{ path: RouteDataset.about.path, title: RouteDataset.about.meta.title }
 				]
 			},
-			viewStyle: {
-				stylesheet: require('./masthead.scss').default
+			viewstyle: {
+				stylesheet: require('./masthead.scss').default,
+				bem: Methodology.Bem.Entities
 			}
 		}
 	}

@@ -9,6 +9,11 @@ export default defineComponent({
 	components: {
 		MastheadComponent
 	},
+	data(): any {
+		return {
+			// Empty
+		}
+	},
 	setup() {
 		let PubSubRegistry: any = inject('PubSubRegistry');
 	// 	PubSubRegistry.publish('DataTablePayload', {

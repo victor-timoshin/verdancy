@@ -1,6 +1,6 @@
 {
 	"name": "verdancy",
-	"version": "0.5.2",
+	"version": "0.6.2",
 	"description": "",
 	"license": "MIT",
 	"engines": {
@@ -38,6 +38,10 @@
 		"test": "jest"
 	},
 	"dependencies": {
+		"@timcowebapps/common.ooscss": "^0.3.18",
+		"@timcowebapps/common.smascss.styles": "^0.23.80",
+		"@timcowebapps/common.system": "^0.4.13",
+		"@timcowebapps/common.utils": "^0.16.68",
 		"axios": "^0.21.1",
 		"bufferutil": "^4.0.3",
 		"cors": "^2.8.5",

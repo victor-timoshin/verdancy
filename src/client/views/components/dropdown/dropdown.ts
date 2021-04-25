@@ -1,6 +1,7 @@
 'use strict';
 
 import { defineComponent } from 'vue';
+import { Methodology } from '@timcowebapps/common.ooscss';
 
 export default defineComponent({
 	name: 'DropDown',
@@ -20,6 +21,10 @@ export default defineComponent({
 
 	data(): any {
 		return {
+			viewstyle: {
+				stylesheet: require('./dropdown.scss').default,
+				bem: Methodology.Bem.Entities
+			},
 			currentState: this.defaultState
 		}
 	},

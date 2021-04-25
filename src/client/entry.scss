@@ -1,3 +1,21 @@
+@import '~timcowebapps/common.utils/src/unit/converters';
+@import '~timcowebapps/common.utils/src/string/replace';
+@import '~timcowebapps/common.utils/src/string/remove-whitespace';
+
+@import '~timcowebapps/common.ooscss/src/methodology/bem/index';
+
+@import '~timcowebapps/common.smascss.styles/src/modules/settings/index';
+@import '~timcowebapps/common.smascss.styles/src/main';
+
+@import '~timcowebapps/common.smascss.styles/src/modules/base/utilities/hidden';
+@import '~timcowebapps/common.smascss.styles/src/modules/base/utilities/gapper';
+
+@import '~timcowebapps/common.smascss.styles/src/modules/extracts/rounded';
+@import '~timcowebapps/common.smascss.styles/src/modules/extracts/spacing';
+
+@import '~timcowebapps/common.smascss.styles/src/modules/components/grid/grid-vars';
+@import '~timcowebapps/common.smascss.styles/src/modules/components/grid/grid';
+
 :root {
 	--router-link: #052a34;
 	--router-link-active: #f46434;
@@ -7,9 +25,22 @@
 	font-family: 'Raleway', cursive;
 }
 
+$body-fontFamily: 'Lato', sans-serif;
+$body-fontSize: 16px;
+$body-lineHeight: 1.4;
+$body-fontColor: #333;
+$body-background: #fff;
+
 body {
-	font-family: 'Lato', sans-serif;
-	color: #333;
-	background-color: #eee;
+	color: $body-fontColor;
+	font-family: $body-fontFamily;
+	font-size: #{$body-fontSize};
+	font-weight: 400;
+	line-height: #{$body-lineHeight};
+	background: $body-background;
+	position: relative;
 	margin: 0;
+	padding: 0;
+	min-height: 100vh;
+	-webkit-font-smoothing: antialiased;
 }

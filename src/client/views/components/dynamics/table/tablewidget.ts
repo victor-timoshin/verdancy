@@ -1,6 +1,7 @@
 'use strict';
 
 import { defineComponent } from 'vue';
+import { Methodology } from '@timcowebapps/common.ooscss';
 import { subcomp } from '../../../partials/lazy/_exports';
 
 interface ITableColumn {
@@ -27,20 +28,17 @@ export default defineComponent({
 	},
 	data(): any {
 		return {
-			viewStyle: {
-				stylesheet: require('./tablewidget.scss').default
+			viewstyle: {
+				stylesheet: require('./tablewidget.scss').default,
+				bem: Methodology.Bem.Entities
 			}
 		}
 	},
 	mounted() {
 		//let tableElement = this.$refs['TableWidgetRef'] as Element;
-	},
-
-	created() {
 		window.addEventListener('resize', this.resizeEventHandler);
 	},
-
-	destroyed() {
+	unmounted() {
 		window.removeEventListener('resize', this.resizeEventHandler);
 	}
 });

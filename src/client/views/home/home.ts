@@ -2,6 +2,7 @@
 
 import * as _ from 'underscore';
 import { defineComponent, inject, onMounted, ref, watch } from 'vue';
+import { Methodology } from '@timcowebapps/common.ooscss';
 import { api, bus } from './../../../core/_exports';
 import { subcomp } from '../partials/lazy/_exports';
 
@@ -10,6 +11,10 @@ export default defineComponent({
 	components: subcomp.SubcomponentLoadable.dynamicImport(),
 	data(): any {
 		return {
+			viewstyle: {
+				stylesheet: require('./../../entry.scss').default,
+				bem: Methodology.Bem.Entities
+			},
 			datatable: {
 				columns: [{
 					field: 'quantity',
