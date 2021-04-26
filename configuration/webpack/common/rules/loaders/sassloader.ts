@@ -3,5 +3,6 @@
 import webpack from 'webpack';
 
 export const sassLoader = (): webpack.RuleSetUseItem => ({
-	loader: 'sass-loader'
+	loader: 'sass-loader',
+	options: { sourceMap: true }
 });

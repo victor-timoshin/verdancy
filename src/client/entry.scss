@@ -16,20 +16,11 @@
 @import '~timcowebapps/common.smascss.styles/src/modules/components/grid/grid-vars';
 @import '~timcowebapps/common.smascss.styles/src/modules/components/grid/grid';
 
-:root {
-	--router-link: #052a34;
-	--router-link-active: #f46434;
-}
+@import './entry-vars';
 
 :global(.logo) {
 	font-family: 'Raleway', cursive;
 }
-
-$body-fontFamily: 'Lato', sans-serif;
-$body-fontSize: 16px;
-$body-lineHeight: 1.4;
-$body-fontColor: #333;
-$body-background: #fff;
 
 body {
 	color: $body-fontColor;

@@ -26,19 +26,15 @@ export const clientConfig: webpack.Configuration = webpackMerge(getClientBaseCon
 	entry: {
 		'client': {
 			import: path.resolve(webpackContext, buildConfg.paths.src.base, 'client/entry.ts')
-		},
-		// 'tablewidget': {
-		// 	import: path.resolve(webpackContext, buildConfg.paths.src.base, 'client/views/components/dynamics/table/tablewidget'),
-		// 	dependOn: 'client'
-		// }
+		}
 	},
 	output: {
 		filename: buildConfg.disabledChunkhash
 			? '[name].js'
 			: '[name].[fullhash:8].js',
 		sourceMapFilename: buildConfg.disabledChunkhash
-			? '[name].map'
-			: '[name].[fullhash:8].map',
+			? '[file].map'
+			: '[file].[fullhash:8].map',
 		chunkFilename: buildConfg.disabledChunkhash
 			? '[name].chunk.js'
 			: '[name].[fullhash:8].chunk.js',
@@ -47,18 +43,26 @@ export const clientConfig: webpack.Configuration = webpackMerge(getClientBaseCon
 	optimization: {
 		chunkIds: 'named',
 		splitChunks: {
+			minChunks: 1,
 			cacheGroups: {
+				vendors: {
+					name: 'chunk-vendors',
+					test: /[\\/]node_modules[\\/]/,
+					priority: -10,
+					chunks: 'initial'
+				},
+				common: {
+					name: 'chunk-common',
+					minChunks: 2,
+					priority: -20,
+					chunks: 'initial',
+					reuseExistingChunk: true
+				},
 				components: {
-					name: 'tablewidget',
+					name: 'chunk-tablewidget',
 					test: /[\\/]src[\\/]client[\\/]views[\\/]components[\\/]dynamics[\\/]/,
 					chunks: 'all',
 					enforce: true
-				},
-				node_vendors: {
-					name: 'vendors',
-					test: /[\\/]node_modules[\\/]/,
-					chunks: 'all',
-					priority: -10
 				}
 			}
 		},

@@ -24,7 +24,7 @@ export const getClientBaseConfig = (mode: ModeEnum): webpack.Configuration => {
 			rules: [...getRules(mode, TargetEnum.Web)]
 		},
 		resolve: {
-			extensions: ['.js', '.ts', '.vue'],
+			extensions: ['.js', '.ts', '.css', '.scss', '.map', '.vue'],
 			modules: [
 				path.resolve(webpackContext, 'node_modules')
 			],

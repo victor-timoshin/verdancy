@@ -1,13 +1,55 @@
-.dropdown-wrap {
+@import '~timcowebapps/common.utils/src/unit/converters';
+@import '~timcowebapps/common.ooscss/src/methodology/bem/index';
+
+@import './../../../entry-vars';
+
+$dropdown-trigger-height: px_to_rem(40px, $body-fontSize);
+$dropdown-listitem-height: $dropdown-trigger-height;
+
+.dropdown {
 	position: relative;
-}
+	display: flex;
+	flex-direction: column;
 
-.dropdown__list {
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
+	@include element((), 'trigger') {
+		color: #333;
+		font-size: 18px;
+		font-weight: normal;
+		line-height: $dropdown-trigger-height;
+		background-color: #fff;
+		border: 1px solid #333;
+		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0 px_to_rem(15px, $body-fontSize);
+		height: $dropdown-trigger-height;
+		cursor: pointer;
+	}
 
-.dropdown__listitem {
+	@include element((), 'list') {
+		background-color: #fff;
+		border: 1px solid #333;
+		display: block;
+		position: absolute;
+		top: 100%;
+		left: 0;
+		right: 0;
+		z-index: 2;
+	}
 
+	@include element((), 'listitem') {
+		color: #333;
+		font-size: $body-fontSize;
+		font-weight: normal;
+		line-height: $dropdown-listitem-height;
+		position: relative;
+		display: block;
+		padding: 0 px_to_rem(15px, $body-fontSize);
+		cursor: pointer;
+
+		&:hover {
+			background-color: rgba(0, 0, 0, .1);
+		}
+	}
 }

@@ -30,7 +30,7 @@ export class SubcomponentLoadable {
 									setTimeout(() => {
 										resolve(
 											import(
-											/* webpackChunkName: `${subcomponentName}` */
+											/* webpackChunkName: `chunk-${subcomponentName}` */
 											/* webpackExports: ["default", "named"] */
 											/* webpackMode: "lazy" */
 											`@components/${subcomponent}.vue`).then(module => {

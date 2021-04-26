@@ -22,18 +22,15 @@ export const clientDevConfig: webpack.Configuration = webpackMerge(getClientBase
 			`webpack-dev-server/client?${SERVER_PROTOCOL}://${buildConfg.dev.ipaddress}:${buildConfg.dev.port}`,
 			'webpack/hot/only-dev-server',
 			path.resolve(webpackContext, buildConfg.paths.src.base, 'client/entry')
-		],
-		// 'tablewidget': {
-		// 	import: path.resolve(webpackContext, buildConfg.paths.src.base, 'client/views/components/dynamics/table/tablewidget')
-		// }
+		]
 	},
 	output: {
 		filename: buildConfg.disabledChunkhash
 			? '[name].js'
 			: '[name].[fullhash:8].js',
 		sourceMapFilename: buildConfg.disabledChunkhash
-			? '[name].map'
-			: '[name].[fullhash:8].map',
+			? '[file].js.map'
+			: '[file].[fullhash:8].js.map',
 		chunkFilename: buildConfg.disabledChunkhash
 			? '[name].chunk.js'
 			: '[name].[fullhash:8].chunk.js',
@@ -42,21 +39,28 @@ export const clientDevConfig: webpack.Configuration = webpackMerge(getClientBase
 		publicPath: buildConfg.dev.publicPath
 	},
 	optimization: {
-		//runtimeChunk: 'single'
 		chunkIds: 'named',
 		splitChunks: {
+			minChunks: 1,
 			cacheGroups: {
+				vendors: {
+					name: 'chunk-vendors',
+					test: /[\\/]node_modules[\\/]/,
+					priority: -10,
+					chunks: 'initial'
+				},
+				common: {
+					name: 'chunk-common',
+					minChunks: 2,
+					priority: -20,
+					chunks: 'initial',
+					reuseExistingChunk: true
+				},
 				components: {
-					name: 'tablewidget',
+					name: 'chunk-tablewidget',
 					test: /[\\/]src[\\/]client[\\/]views[\\/]components[\\/]dynamics[\\/]/,
 					chunks: 'all',
 					enforce: true
-				},
-				node_vendors: {
-					name: 'vendors',
-					test: /[\\/]node_modules[\\/]/,
-					chunks: 'all',
-					priority: -10
 				}
 			}
 		},
@@ -76,9 +80,6 @@ export const clientDevConfig: webpack.Configuration = webpackMerge(getClientBase
 			title: '',
 			template: path.resolve(webpackContext, buildConfg.paths.src.layouts, buildConfg.tmpl.master + buildConfg.tmpl.extname),
 			filename: path.resolve(webpackContext, buildConfg.paths.output.base, buildConfg.tmpl.master + buildConfg.tmpl.extname),
-			// chunks: [
-			// 	'tablewidget'
-			// ],
 			minify: false,
 			hash: true,
 			inject: false,
