@@ -6,8 +6,6 @@
 			<span>{{config.placeholder}}</span>
 		</div>
 
-		<div></div>
-
 		<ul :class="viewstyle.bem.block(viewstyle.stylesheet, 'dropdown').element('list').toStr()" v-if="currentState">
 			<li :class="viewstyle.bem.block(viewstyle.stylesheet, 'dropdown').element('listitem').toStr()" v-for="(item, i) in config.options" :key="i" @click="setCurrentSelected(item)">
 				<span>{{ item.value }}</span>

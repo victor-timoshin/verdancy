@@ -13,13 +13,13 @@
 @import '~timcowebapps/common.smascss.styles/src/modules/extracts/rounded';
 @import '~timcowebapps/common.smascss.styles/src/modules/extracts/spacing';
 
+@import './entry-vars';
+
 @import '~timcowebapps/common.smascss.styles/src/modules/components/grid/grid-vars';
 @import '~timcowebapps/common.smascss.styles/src/modules/components/grid/grid';
 
-@import './entry-vars';
-
-:global(.logo) {
-	font-family: 'Raleway', cursive;
+*, :after, :before {
+	box-sizing: border-box;
 }
 
 body {

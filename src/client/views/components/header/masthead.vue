@@ -4,7 +4,7 @@
 	<div :class="viewstyle.stylesheet['container']">
 		<div :class="viewstyle.stylesheet['row']">
 			<div :class="viewstyle.bem.block(viewstyle.stylesheet, 'column').element().modifiers(['lg-12', 'md-12', 'sm-12', 'xs-12'])">
-				<span class="logo">Verdancy</span>
+				<span :class="viewstyle.stylesheet['logo']">Verdancy</span>
 
 				<ul :class="viewstyle.stylesheet['navbar']">
 					<li v-for="(item, i) in routes.items" :key="i" :class="viewstyle.bem.block(viewstyle.stylesheet, 'navbar').element('item').toStr()">

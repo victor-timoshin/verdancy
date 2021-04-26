@@ -34,7 +34,7 @@ export const clientDevConfig: webpack.Configuration = webpackMerge(getClientBase
 		chunkFilename: buildConfg.disabledChunkhash
 			? '[name].chunk.js'
 			: '[name].[fullhash:8].chunk.js',
-		hotUpdateChunkFilename: 'hot/hot-update.js',
+		hotUpdateChunkFilename: 'hot/[id].hot-update.js',
 		hotUpdateMainFilename: 'hot/hot-update.json',
 		publicPath: buildConfg.dev.publicPath
 	},

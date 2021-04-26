@@ -23,7 +23,16 @@ export default defineComponent({
 	},
 	methods: {
 		resizeEventHandler(event: UIEvent) {
-			// TODO
+			this.setTableWidth();
+		},
+		setTableWidth() {
+			let tablewidgetElement = this.$refs['tablewidgetRef'] as Element;
+			let tableElement = this.$refs['tablewidgetBodyRef'] as Element;
+			let groupElement = tableElement.getElementsByTagName('colgroup')[0];
+			let groupElementCollection = groupElement.getElementsByTagName('col');
+			for (let i = 0; i < groupElementCollection.length; i++) {
+				groupElementCollection[i].style.width = tablewidgetElement.clientWidth / 2 + 'px';
+			}
 		}
 	},
 	data(): any {
@@ -35,7 +44,7 @@ export default defineComponent({
 		}
 	},
 	mounted() {
-		//let tableElement = this.$refs['TableWidgetRef'] as Element;
+		this.setTableWidth();
 		window.addEventListener('resize', this.resizeEventHandler);
 	},
 	unmounted() {

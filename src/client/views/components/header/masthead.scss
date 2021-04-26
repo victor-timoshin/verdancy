@@ -1,4 +1,15 @@
-@import './../../../entry.scss';
+@import '~timcowebapps/common.utils/src/unit/converters';
+@import '~timcowebapps/common.ooscss/src/methodology/bem/index';
+
+@import './../../../entry-vars.scss';
+
+@import '~timcowebapps/common.smascss.styles/src/modules/base/_screensizes';
+@import '~timcowebapps/common.smascss.styles/src/modules/components/grid/grid-vars';
+@import '~timcowebapps/common.smascss.styles/src/modules/components/grid/grid';
+
+.logo {
+	font-family: 'Raleway', cursive;
+}
 
 .navbar {
 	list-style: none;

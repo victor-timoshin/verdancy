@@ -13,11 +13,12 @@ $dropdown-listitem-height: $dropdown-trigger-height;
 
 	@include element((), 'trigger') {
 		color: #333;
-		font-size: 18px;
+		font-size: $body-fontSize;
 		font-weight: normal;
 		line-height: $dropdown-trigger-height;
 		background-color: #fff;
-		border: 1px solid #333;
+		border: 2px solid #333;
+		box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .12);
 		position: relative;
 		display: flex;
 		align-items: center;

@@ -1,16 +1,82 @@
-table {
+@import '~timcowebapps/common.utils/src/unit/converters';
+@import '~timcowebapps/common.ooscss/src/methodology/bem/index';
+
+@import './../../../../entry-vars';
+
+.tablewidget-scrollable {
+	position: relative;
+	height: 480px;
+
+	@include element((), 'header') {
+		// Empty
+	}
+
+	@include element((), 'content') {
+		width: 100%;
+		height: calc(480px - 40px/* thead height */);
+		min-height: 0;
+		position: relative;
+		overflow-y: hidden;
+		overflow-x: hidden; // auto
+
+		&:hover {
+			overflow-y: scroll;
+		}
+	}
+}
+
+.tablewidget-header {
+	table-layout: fixed;
 	width: 100%;
-	border-spacing: 0;
+
+	@include element((), 'thead') {
+		//  Empty
+	}
+
+	@include element((), 'thead-row') {
+		background-color: #333;
+		display: flex;
+		flex-flow: row wrap;
+	}
+
+	@include element((), 'thead-cell') {
+		flex: 0 0 50%;
+		max-width: 50%;
+
+		.inner {
+			color: #fff;
+			font-size: $body-fontSize;
+			font-weight: normal;
+			line-height: px_to_rem(40px, $body-fontSize);
+			padding: 0 px_to_rem(15px, $body-fontSize);
+		}
+	}
 }
 
-.table-scrollable {
-	height: 100%;
-	display: flex;
-	flex-direction: column;
-}
+.tablewidget-content {
+	table-layout: fixed;
+	position: absolute;
+	width: 100%;
+	top: 0;
+	bottom: 0;
 
-.table-scrollable__body {
-	height: 100px;
-	overflow-y: auto;
-	overflow-x: hidden;
+	@include element((), 'tbody') {
+		position: relative;
+		width: 100%;
+	}
+
+	@include element((), 'tbody-row') {
+		&:nth-child(odd) { background-color: rgba(0, 0, 0, .02); }
+		&:nth-child(even) { background-color: rgba(0, 0, 0, .04); }
+
+		position: relative;
+	}
+
+	@include element((), 'tbody-col') {
+		color: #333;
+		font-size: $body-fontSize;
+		font-weight: normal;
+		margin: 0;
+		padding: px_to_rem(8px, $body-fontSize) px_to_rem(12px, $body-fontSize);
+	}
 }
