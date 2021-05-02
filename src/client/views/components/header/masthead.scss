@@ -7,26 +7,27 @@
 @import '~timcowebapps/common.smascss.styles/src/modules/components/grid/grid-vars';
 @import '~timcowebapps/common.smascss.styles/src/modules/components/grid/grid';
 
-.logo {
-	font-family: 'Raleway', cursive;
-}
-
 .navbar {
-	list-style: none;
-	display: flex;
-	flex-direction: row;
-	padding: 0;
+	background-color: rgba(0, 0, 0, .04);
+	padding: px_to_rem(15px, $body-fontSize) 0;
 
-	@include element((), 'item') {
+	@include element((), 'list') {
+		list-style: none;
+		display: flex;
+		flex-direction: row;
+		padding: 0;
+	}
+
+	@include element((), 'listitem') {
 		&:not(:last-child) {
 			margin-right: 1em;
 		}
 	}
 
-	@include element((), 'item-router-link') {
+	@include element((), 'listitem-router-link') {
 		color: var(--router-link);
 		font-size: 12px;
-		font-weight: 800;
+		font-weight: normal;
 		text-decoration: none;
 		text-transform: uppercase;
 		letter-spacing: .03em;

@@ -1,7 +1,7 @@
 'use strict';
 
 import * as _ from 'underscore';
-import { defineComponent, inject, onMounted, ref, watch } from 'vue';
+import { defineComponent, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { Methodology } from '@timcowebapps/common.ooscss';
 import { api, bus } from './../../../core/_exports';
 import { subcomp } from '../partials/lazy/_exports';
@@ -17,61 +17,76 @@ export default defineComponent({
 			},
 			datatable: {
 				columns: [{
-					field: 'quantity',
-					label: 'Кол-во'
-				}, {
 					field: 'price',
 					label: 'Цена'
+				}, {
+					field: 'quantity',
+					label: 'Количество'
+				}, {
+					field: 'total',
+					label: 'Общее'
 				}],
 				data: []
 			}
 		}
 	},
-	setup(props) {
+	setup(props: any) {
 		//#region Injects
 
-		let pubSubRegistry: bus.IPubSubRegistry = inject('PubSubRegistry') as any;
-		let binanceService: api.IBinanceService = inject('BinanceService') as any;
-
-		let socketProvider = inject('SocketProvider') as any;
+		const storage = inject('storage') as any;
+		const databusService = inject('databusService') as bus.IDatabusService;
+		const binanceService = inject('binanceService') as api.IBinanceService;
+		const socketProvider = inject('socketProvider') as any;
 
 		//#endregion
 
-		let orderBookData = ref(api.initialOrderBook);
+		//#region Refs
 
-		const fetchDepthSnapshot = async (symbol: string) => {
+		let symbolname = ref<string>(storage.symbolname);
+		let orderbookResponse = ref<api.IOrderBookResponse>(api.initialOrderBook);
+
+		//#endregion
+
+		let fetchDepth = async (symbol: string): Promise<void> => {
 			try {
-				orderBookData.value = await binanceService.fetchDepthSnapshot({ symbol: symbol, limit: 100 });
+				orderbookResponse.value = await binanceService.fetchDepth({ symbol: symbol, limit: 100 });
 			} catch (err: any) {
 				console.log(err);
 			}
 		}
 
-		pubSubRegistry.subscribe('binance_active_symbol', (data: any) => {
-			fetchDepthSnapshot(data.symbol);
-		});
-
-		const fetchDepthStream = async () => {
+		let fetchDepthStream = async (): Promise<void> => {
 			try {
-				orderBookData.value = await binanceService.fetchDepthStream(socketProvider);
+				orderbookResponse.value = await binanceService.fetchDepthStream(socketProvider);
 			} catch (err: any) {
 				console.log(err);
 			}
 		}
 
-		watch(() => orderBookData.value, (newstream: api.IOrderBook, oldstream: api.IOrderBook) => {
+		watch(() => orderbookResponse.value, (newstream: api.IOrderBookResponse, oldstream: api.IOrderBookResponse) => {
 			if (!newstream)
 				return;
 
-			fetchDepthStream();
+			if (typeof storage.autoupdate === 'boolean') {
+				databusService.publish('binance_depth_stream', { payload: newstream });
+				fetchDepthStream();
+			}
 		});
 
 		onMounted(() => {
-			fetchDepthSnapshot('BTCUSDT'/* default */);
+			databusService.subscribe<{ symbol: string }>('binance_active_symbol', { compid: new Date().getTime() }, (data) => {
+				storage.symbolname = data.symbol;
+			});
+
+			fetchDepth(storage.symbolname);
+		});
+
+		onBeforeUnmount(() => {
+			//databusService.unsubscribe('binance_active_symbol', { compid });
 		});
 
 		return {
-			orderBookData
+			symbolname, orderbookResponse
 		}
-	},
+	}
 });

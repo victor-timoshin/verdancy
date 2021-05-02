@@ -7,7 +7,7 @@
 				<thead :class="viewstyle.bem.block(viewstyle.stylesheet, 'tablewidget-header').element('thead').toStr()">
 					<tr :class="viewstyle.bem.block(viewstyle.stylesheet, 'tablewidget-header').element('thead-row').toStr()">
 						<th v-for="(column, columnIdx) in columns" :key="columnIdx" :class="viewstyle.bem.block(viewstyle.stylesheet, 'tablewidget-header').element('thead-cell').toStr()">
-							<div :class="viewstyle.stylesheet['inner']">
+							<div :class="viewstyle.stylesheet['label']">
 								{{ column.label }}
 							</div>
 						</th>
@@ -19,6 +19,7 @@
 		<div :class="viewstyle.bem.block(viewstyle.stylesheet, 'tablewidget-scrollable').element('content').toStr()" ref="tablewidgetRef">
 			<table :class="viewstyle.stylesheet['tablewidget-content']" ref="tablewidgetBodyRef">
 				<colgroup>
+					<col />
 					<col />
 					<col />
 				</colgroup>

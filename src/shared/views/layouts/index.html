@@ -4,7 +4,6 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="preconnect" href="https://fonts.gstatic.com" />
-		<link href="https://fonts.googleapis.com/css?family=Raleway&text=Verdancy" rel="stylesheet" type="text/css" />
 		<link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;700&display=swap" rel="stylesheet" type="text/css" />
 
 		<% for (var file in htmlWebpackPlugin.files.css) { %>
@@ -17,6 +16,10 @@
 
 		<% for (var file in htmlWebpackPlugin.files.js) { %>
 			<script src="<%= htmlWebpackPlugin.options.urlContent(htmlWebpackPlugin.files.js[file]) %>"></script>
+		<% } %>
+
+		<% if (htmlWebpackPlugin.options.injectState) { %>
+			<%= htmlWebpackPlugin.options.injectState.INITIAL_STATE %>
 		<% } %>
 	</body>
 </html>

@@ -23,16 +23,17 @@ export default defineComponent({
 	},
 	methods: {
 		resizeEventHandler(event: UIEvent) {
-			this.setTableWidth();
+			this.recalculateTableWidth();
 		},
-		setTableWidth() {
-			let tablewidgetElement = this.$refs['tablewidgetRef'] as Element;
-			let tableElement = this.$refs['tablewidgetBodyRef'] as Element;
-			let groupElement = tableElement.getElementsByTagName('colgroup')[0];
-			let groupElementCollection = groupElement.getElementsByTagName('col');
-			for (let i = 0; i < groupElementCollection.length; i++) {
-				groupElementCollection[i].style.width = tablewidgetElement.clientWidth / 2 + 'px';
-			}
+		recalculateTableWidth() {
+			let tablewidgetHeadElement = this.$refs['tablewidgetHeadRef'] as Element;
+			let theadCellElements = tablewidgetHeadElement.getElementsByTagName('th');
+
+			let tablewidgetBodyElement = this.$refs['tablewidgetBodyRef'] as Element;
+			let tbodyCellElements = tablewidgetBodyElement.getElementsByTagName('col');
+
+			for (let i = 0; i < theadCellElements.length; i++)
+				tbodyCellElements[i].style.width = theadCellElements[i].clientWidth + 'px';
 		}
 	},
 	data(): any {
@@ -44,8 +45,8 @@ export default defineComponent({
 		}
 	},
 	mounted() {
-		this.setTableWidth();
 		window.addEventListener('resize', this.resizeEventHandler);
+		this.recalculateTableWidth();
 	},
 	unmounted() {
 		window.removeEventListener('resize', this.resizeEventHandler);

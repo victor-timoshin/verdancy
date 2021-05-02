@@ -2,9 +2,14 @@
 
 import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
-import { IOrderBook } from './orderbook';
+
+export interface IOrderBookResponse {
+	bids: Array<any>;
+	asks: Array<any>;
+	lastUpdateId?: number;
+};
 
 export interface IBinanceService {
-	fetchDepthSnapshot: (endpointParams: { symbol: string, limit: number }) => Promise<IOrderBook>;
-	fetchDepthStream: (socket: Socket<DefaultEventsMap, DefaultEventsMap>) => Promise<IOrderBook>;
+	fetchDepth: (endpointParams: { symbol: string, limit: number }) => Promise<IOrderBookResponse>;
+	fetchDepthStream: (socket: Socket<DefaultEventsMap, DefaultEventsMap>) => Promise<IOrderBookResponse>;
 };

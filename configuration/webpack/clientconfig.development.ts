@@ -83,6 +83,14 @@ export const clientDevConfig: webpack.Configuration = webpackMerge(getClientBase
 			minify: false,
 			hash: true,
 			inject: false,
+			injectState: {
+				INITIAL_STATE: `<script id='__INITIAL_STATE__' type='application/json'>
+					${JSON.stringify({
+						autoupdate: false,
+						symbolname: 'BTCUSDT'
+					}).replace(/</g,'\\u003c')}
+				</script>`
+			},
 			urlContent: (content: string) => content,
 			metaTags: {
 				// Empty

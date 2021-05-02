@@ -1,5 +1,6 @@
 'use strict';
 
+import * as _ from 'underscore';
 import { defineComponent } from 'vue';
 import Dropdown from '@components/dropdown/dropdown.vue';
 import { Methodology } from '@timcowebapps/common.ooscss';
@@ -7,11 +8,10 @@ import { api } from '../../../core/_exports';
 
 export default defineComponent({
 	name: 'AboutPage',
-	inject: ['PubSubRegistry'],
+	inject: ['databusService'],
 	components: {
 		Dropdown
 	},
-
 	data(): any {
 		return {
 			viewstyle: {
@@ -19,7 +19,7 @@ export default defineComponent({
 				bem: Methodology.Bem.Entities
 			},
 			binanceDropdownSymbols: {
-				placeholder: '--Please Select--',
+				placeholder: localStorage.symbolname || 'BTCUSDT',
 				options: [{
 					value: api.IndexSymbolUtils.enumToStr(api.IndexSymbolEnum.BTCUSDT)
 				}, {
@@ -30,11 +30,10 @@ export default defineComponent({
 			}
 		}
 	},
-
 	methods: {
 		getBinanceSymbolOption(option: any) {
 			this.binanceDropdownSymbols.placeholder = option.value;
-			this.PubSubRegistry.publish('binance_active_symbol', { symbol: option.value });
+			this.databusService.publish('binance_active_symbol', { symbol: option.value });
 		}
 	}
 });

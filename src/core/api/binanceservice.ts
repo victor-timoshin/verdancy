@@ -1,10 +1,11 @@
 'use strict';
 
+import _ from 'underscore';
 import axios from 'axios';
 import { Socket } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
-import { IBinanceService } from './binanceservice.interface';
-import { getDepthData, IOrderBook } from './orderbook';
+import { IBinanceService, IOrderBookResponse } from './binanceservice.interface';
+import { OrderBookResponse } from './orderbook';
 
 export class BinanceService implements IBinanceService {
 	public static endpoint = 'https://api.binance.com/api/v3/depth';
@@ -13,41 +14,20 @@ export class BinanceService implements IBinanceService {
 		// Empty
 	}
 
-	public fetchDepthSnapshot = async (endpointParams: { symbol: string, limit: number }): Promise<IOrderBook> => {
+	public fetchDepth = async (endpointParams: { symbol: string, limit: number }): Promise<IOrderBookResponse> => {
 		let response = await axios.get(BinanceService.endpoint, {
 			params: endpointParams
 		});
 
-		let orderBook: IOrderBook = {
-			bids: [],
-			asks: []
-		};
-
-		if (typeof response.data.bids !== 'undefined') {
-			for (let obj of response.data.bids) {
-				orderBook.bids.push({
-					quantity: parseFloat(obj[1]),
-					price: parseFloat(obj[0])
-				});
-			}
-		}
-
-		if (typeof response.data.asks !== 'undefined') {
-			for (let obj of response.data.asks) {
-				orderBook.asks.push({
-					quantity: parseFloat(obj[1]),
-					price: parseFloat(obj[0])
-				});
-			}
-		}
-
-		return orderBook;
+		let orderbook = new OrderBookResponse(response.data);
+		return orderbook.data();
 	}
 
-	public fetchDepthStream = async (socket: Socket<DefaultEventsMap, DefaultEventsMap>): Promise<IOrderBook> => {
-		return new Promise((resolve: (value: IOrderBook | PromiseLike<IOrderBook>) => void, reject: (reason?: any) => void) => {
+	public fetchDepthStream = async (socket: Socket<DefaultEventsMap, DefaultEventsMap>): Promise<IOrderBookResponse> => {
+		return new Promise((resolve: (value: IOrderBookResponse | PromiseLike<IOrderBookResponse>) => void, reject: (reason?: any) => void) => {
 			socket.on('diff_depth_stream', (payload: string) => {
-				resolve(getDepthData(JSON.parse(payload)));
+				let orderbook = new OrderBookResponse(JSON.parse(payload));
+				resolve(orderbook.data());
 			});
 		});
 	}

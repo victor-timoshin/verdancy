@@ -1,11 +1,8 @@
 'use strict';
 
-import { IOrder } from './order';
-
-export interface IOrderBook {
-	bids: Array<IOrder>;
-	asks: Array<IOrder>;
-};
+import _ from 'underscore';
+import { IOrderBookResponse } from './binanceservice.interface';
+import { IOrder, OrderResponse } from './order';
 
 export const initialOrderBook = {
 	bids: [{
@@ -18,29 +15,31 @@ export const initialOrderBook = {
 	}]
 };
 
-export const getDepthData = (data: any) => {
-	let orderBook: IOrderBook = {
+export class OrderBookResponse {
+	private orderbookResponse_: IOrderBookResponse = {
 		bids: [],
 		asks: []
 	};
 
-	if (typeof data.b !== 'undefined') {
-		for (let obj of data.b) {
-			orderBook.bids.push({
-				quantity: parseFloat(obj[1]),
-				price: parseFloat(obj[0])
-			});
+	constructor(data: any) {
+		this.parseOrder_(data, ['bids', 'b']);
+		this.parseOrder_(data, ['asks', 'a']);
+
+		this.orderbookResponse_.lastUpdateId = data.lastUpdateId;
+	}
+
+	private parseOrder_ = (data: any, propnames: Array<string>) => {
+		const objectKeys = Object.keys(data) as Array<string>;
+		for (let key of objectKeys) {
+			const propname = _.find(propnames, (item: string) => item === key);
+			if (typeof propname !== 'undefined') {
+				for (let obj of data[propname])
+					this.orderbookResponse_[propnames[0]].push(new OrderResponse(obj));
+			}
 		}
 	}
 
-	if (typeof data.a !== 'undefined') {
-		for (let obj of data.a) {
-			orderBook.asks.push({
-				quantity: parseFloat(obj[1]),
-				price: parseFloat(obj[0])
-			});
-		}
+	public data(): IOrderBookResponse {
+		return this.orderbookResponse_;
 	}
-
-	return orderBook;
-}
+};

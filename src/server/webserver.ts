@@ -73,9 +73,14 @@ class HttpServer implements IHttpServer {
 		}
 
 		if (request.url === '/about') {
-			response.setHeader('Content-Type', 'text/html');
-			response.write('<h1>About</h1>');
-			response.end();
+			if (fs.existsSync(path.resolve(process.cwd(), buildConfg.paths.output.base))) {
+				var template = fs.readFileSync(path.resolve(process.cwd(), buildConfg.paths.output.base, 'index.html'), {
+					encoding: 'utf8'
+				});
+
+				response.writeHead(200, { 'Content-type': 'text/html' });
+				response.end(template);
+			}
 		}
 	}
 };

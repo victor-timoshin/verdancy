@@ -6,7 +6,7 @@ import SocketIO from 'socket.io-client';
 export default {
 	install: (app: App<Element>, { connection, options }) => {
 		const socket = SocketIO(connection, options);
-		app.config.globalProperties.$SocketProvider = socket;
-		app.provide('SocketProvider', socket);
+		app.config.globalProperties.$socketProvider = socket;
+		app.provide('socketProvider', socket);
 	}
 }

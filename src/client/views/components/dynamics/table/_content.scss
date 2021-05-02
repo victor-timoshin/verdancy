@@ -1,0 +1,34 @@
+.tablewidget-content {
+	table-layout: fixed;
+	position: absolute;
+	width: 100%;
+	top: 0;
+	bottom: 0;
+
+	@include element((), 'tbody') {
+		position: relative;
+		width: 100%;
+	}
+
+	@include element((), 'tbody-row') {
+		&:nth-child(odd) { background-color: rgba(0, 0, 0, .02); }
+		&:nth-child(even) { background-color: rgba(0, 0, 0, .04); }
+
+		position: relative;
+	}
+
+	@include element((), 'tbody-col') {
+		@include text-truncate;
+		color: #333;
+		font-size: $body-fontSize;
+		font-weight: normal;
+		margin: 0;
+		padding: px_to_rem(8px, $body-fontSize) px_to_rem(15px, $body-fontSize);
+
+		@include is-mobile {
+			&:nth-child(0n+3) {
+				display: none;
+			}
+		}
+	}
+}
