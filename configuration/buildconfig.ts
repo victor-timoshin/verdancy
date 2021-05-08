@@ -5,16 +5,16 @@ export const CREATOR = 'Victor Timoshin';
 export const ENABLE_DEBUG_MODE = false;
 
 export const SERVER_PROTOCOL = 'http';
-export const SERVER_IP_ADDRESS = process.env.IP || '127.0.0.1';
+export const SERVER_HOSTNAME = process.env.HOSTNAME || '127.0.0.1';
 export const SERVER_PORT = 8082;
 export const CLIENT_PORT = parseInt(process.env.PORT as string) || 8080;
 
 export const buildConfg = {
 	isDevelopmentMode: (process.env.NODE_ENV || 'development').trim().toLowerCase() === 'development',
 	dev: {
-		ipaddress: SERVER_IP_ADDRESS,
+		hostname: SERVER_HOSTNAME,
 		port: SERVER_PORT,
-		publicPath: `${SERVER_PROTOCOL}://${SERVER_IP_ADDRESS}:${SERVER_PORT}/dist/`
+		publicPath: `${SERVER_PROTOCOL}://${SERVER_HOSTNAME}:${SERVER_PORT}/dist/`
 	},
 	realport: CLIENT_PORT,
 	disabledChunkhash: false,

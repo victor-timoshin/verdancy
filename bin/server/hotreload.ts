@@ -13,7 +13,7 @@ new WebpackDevServer(webpack(clientDevConfig), {
 	publicPath: buildConfg.dev.publicPath,
 	hot: true,
 	inline: true,
-	host: buildConfg.dev.ipaddress,
+	host: buildConfg.dev.hostname,
 	port: buildConfg.dev.port,
 	overlay: true,
 	compress: true,
@@ -30,7 +30,7 @@ new WebpackDevServer(webpack(clientDevConfig), {
 	watchContentBase: true,
 	watchOptions: { ignored: /node_modules/ },
 	headers: { 'Access-Control-Allow-Origin': '*' }
-}).listen(buildConfg.dev.port, buildConfg.dev.ipaddress, (err: any) => {
+}).listen(buildConfg.dev.port, buildConfg.dev.hostname, (err: any) => {
 	if (err)
 		console.error(err);
 

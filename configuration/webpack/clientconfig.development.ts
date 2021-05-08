@@ -19,7 +19,7 @@ export const clientDevConfig: webpack.Configuration = webpackMerge(getClientBase
 	devtool: 'cheap-module-source-map',
 	entry: {
 		'client': [
-			`webpack-dev-server/client?${SERVER_PROTOCOL}://${buildConfg.dev.ipaddress}:${buildConfg.dev.port}`,
+			`webpack-dev-server/client?${SERVER_PROTOCOL}://${buildConfg.dev.hostname}:${buildConfg.dev.port}`,
 			'webpack/hot/only-dev-server',
 			path.resolve(webpackContext, buildConfg.paths.src.base, 'client/entry')
 		]
