@@ -1,6 +1,6 @@
 {
 	"name": "verdancy",
-	"version": "0.10.38",
+	"version": "0.10.39",
 	"description": "",
 	"license": "MIT",
 	"engines": {
@@ -35,7 +35,6 @@
 		"build-client": "cross-env NODE_ENV=production AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.ts",
 		"build:dev": "npm run clean && npm run build-client:dev && npm run build-server:dev",
 		"build": "npm run clean && npm run build-client && npm run build-server",
-		"postinstall": "npm run tsc",
 		"watch": "concurrently \"node_modules/.bin/ts-node -P tsconfig.json ./bin/server/hotreload.ts\" \"nodemon ./bin/server/index.ts --watch dist -e js\" --kill-others",
 		"tests": "jest"
 	},
