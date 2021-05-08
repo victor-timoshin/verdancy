@@ -9,7 +9,7 @@ import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import HtmlPlugin from 'html-webpack-plugin';
 import CompressionPlugin from 'compression-webpack-plugin';
 import { VueLoaderPlugin } from 'vue-loader';
-import { SERVER_DEBUG, buildConfg, CLIENT_PORT, SERVER_PROTOCOL, CREATOR } from '../buildconfig';
+import { ENABLE_DEBUG_MODE, buildConfg, CLIENT_PORT, SERVER_PROTOCOL, CREATOR } from '../buildconfig';
 import { ModeEnum } from './foundation/modeenum';
 import { webpackContext } from './webpackcontext';
 import { getClientBaseConfig } from './clientconfig.base';
@@ -100,9 +100,9 @@ export const clientConfig: webpack.Configuration = webpackMerge(getClientBaseCon
 			cache: true,
 			showErrors: false,
 			inject: false,
-			urlContent: (content: string) => SERVER_DEBUG
+			urlContent: (content: string) => ENABLE_DEBUG_MODE
 				? `${SERVER_PROTOCOL}://127.0.0.1:${CLIENT_PORT}/` + content
-				: `${SERVER_PROTOCOL}://verdancy.ru/` + content,
+				: `${SERVER_PROTOCOL}://verdancy.herokuapp.com/` + content,
 			metaTags: {
 				// Empty
 			},

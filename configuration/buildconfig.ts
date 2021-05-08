@@ -2,7 +2,7 @@
 
 export const CREATOR = 'Victor Timoshin';
 
-export const SERVER_DEBUG = true;
+export const ENABLE_DEBUG_MODE = false;
 
 export const SERVER_PROTOCOL = 'http';
 export const SERVER_IP_ADDRESS = process.env.IP || '127.0.0.1';
