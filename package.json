@@ -1,6 +1,6 @@
 {
 	"name": "verdancy",
-	"version": "0.9.32",
+	"version": "0.9.35",
 	"description": "",
 	"license": "MIT",
 	"engines": {
@@ -27,15 +27,15 @@
 	],
 	"scripts": {
 		"clean": "node_modules/.bin/ts-node -P tsconfig.json ./bin/clean.ts",
+		"start-server": "node_modules/.bin/ts-node -P tsconfig.json -r tsconfig-paths/register ./bin/server/index.ts",
 		"build-server:dev": "cross-env NODE_ENV=development AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.server.ts",
 		"build-server": "cross-env NODE_ENV=production AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.server.ts",
 		"build-client:dev": "cross-env NODE_ENV=development AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.ts",
 		"build-client": "cross-env NODE_ENV=production AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.ts",
 		"build:dev": "npm run clean && npm run build-client:dev && npm run build-server:dev",
 		"build": "npm run clean && npm run build-client && npm run build-server",
-		"start-watch": "npm run build:dev && concurrently \"node_modules/.bin/ts-node -P tsconfig.json ./bin/server/hotreload.ts\" \"nodemon ./bin/server/index.ts --watch dist -e js\" --kill-others",
-		"start": "npm run build && node_modules/.bin/ts-node -P tsconfig.json -r tsconfig-paths/register ./bin/server/index.ts",
-		"test": "jest"
+		"watch": "concurrently \"node_modules/.bin/ts-node -P tsconfig.json ./bin/server/hotreload.ts\" \"nodemon ./bin/server/index.ts --watch dist -e js\" --kill-others",
+		"tests": "jest"
 	},
 	"dependencies": {
 		"@timcowebapps/common.ooscss": "^0.3.18",

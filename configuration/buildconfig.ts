@@ -3,6 +3,7 @@
 export const CREATOR = 'Victor Timoshin';
 
 export const SERVER_DEBUG = true;
+
 export const SERVER_PROTOCOL = 'http';
 export const SERVER_IP_ADDRESS = process.env.IP || '127.0.0.1';
 export const SERVER_PORT = 8082;
