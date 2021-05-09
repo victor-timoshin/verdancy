@@ -1,8 +1,8 @@
 'use strict';
 
+const buildconfg = require('../../configuration/buildconfig.js');
 const bundle = require('../../wwwroot/dist/server-bundle.js');
-console.log(process.env.HOSTNAME);
-console.log(process.env.IP);
-bundle.bootstrap(process.env.HOSTNAME, parseInt(process.env.PORT)).then(() => {
+
+bundle.bootstrap(buildconfg.realport).then(() => {
 	// Empty
 }).catch(error => console.error(error));

@@ -1,13 +1,15 @@
 'use strict';
 
-import { buildConfg } from '../../configuration/buildconfig';
 import { WebServer } from './webserver';
 
-export const bootstrap = async (hostname: string = buildConfg.dev.hostname, port: number = buildConfg.realport) => {
+const buildConfg = require('../../configuration/buildconfig.js');
+
+export const bootstrap = async (port: number) => {
 	try {
-		const server = new WebServer(hostname, port);
+		console.log('buildConfg.dev.hostname', port);
+		const server = new WebServer(port);
 		server.on('listening', () => 
-			console.log('WebServer started on %s:%d', hostname, port));
+			console.log('WebServer started on %s:%d', buildConfg.dev.hostname, port));
 
 		await server.listen();
 	} catch (err) {

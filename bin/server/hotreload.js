@@ -1,14 +1,13 @@
 'use strict';
 
-import * as _ from 'underscore';
-import webpack from 'webpack';
-import WebpackDevServer from 'webpack-dev-server';
-import { buildConfg, SERVER_PROTOCOL } from '../../configuration/buildconfig';
-import { clientDevConfig } from '../../configuration/webpack/clientconfig.development';
-import { serverDevConfig } from '../../configuration/webpack/serveconfig.development';
+const webpack = require('webpack');
+const WebpackDevServer = require('webpack-dev-server');
+const buildConfg = require('../../configuration/buildconfig.js');
+const configClient = require('../../configuration/webpack/clientconfig.development.js');
+const configServer = require('../../configuration/webpack/serveconfig.development.js');
 
-new WebpackDevServer(webpack(clientDevConfig), {
-	https: _.isEqual(SERVER_PROTOCOL, 'https'),
+let devServer = new WebpackDevServer(webpack(configClient), {
+	https: false,
 	contentBase: buildConfg.paths.output.base,
 	publicPath: buildConfg.dev.publicPath,
 	hot: true,
@@ -30,14 +29,14 @@ new WebpackDevServer(webpack(clientDevConfig), {
 	watchContentBase: true,
 	watchOptions: { ignored: /node_modules/ },
 	headers: { 'Access-Control-Allow-Origin': '*' }
-}).listen(buildConfg.dev.port, buildConfg.dev.hostname, (err: any) => {
+}).listen(buildConfg.dev.port, buildConfg.dev.hostname, (err) => {
 	if (err)
 		console.error(err);
 
 	console.log('Webpack server launched with at localhost:%d (Hot Module Replacement [HMR] enabled)', buildConfg.dev.port);
 });
 
-webpack(serverDevConfig).watch({}, (err: any, stats: any) => {
+webpack(configServer).watch({}, (err, stats) => {
 	if (err)
 		return console.error(err.message);
 });

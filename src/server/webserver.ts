@@ -9,7 +9,8 @@ import StrictEventEmitter from 'strict-event-emitter-types';
 import { EventEmitter } from 'events';
 import SocketIO from 'socket.io';
 import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
-import { buildConfg, ENABLE_DEBUG_MODE } from '../../configuration/buildconfig';
+
+const buildConfg = require('../../configuration/buildconfig.js');
 
 function createSocket(server: http.Server) {
 	const socketio = new SocketIO.Server(server, {
@@ -92,24 +93,15 @@ export class WebServer extends (EventEmitter as new () => StrictEventEmitter<Eve
 	});
 
 	public constructor(
-		private readonly hostname: string,
 		private readonly port: number) {
 		super();
 	}
 
 	public async listen(): Promise<void> {
 		await new Promise<void>(resolve => {
-			if (ENABLE_DEBUG_MODE) {
-				createSocket(this.httpserver.listen(this.port, this.hostname, () => {
-					resolve();
-				}));
-			}
-			else {
-				createSocket(this.httpserver.listen(this.port, () => {
-					resolve();
-				}));
-			}
-			
+			createSocket(this.httpserver.listen(this.port, () => {
+				resolve();
+			}));
 		});
 
 		this.emit('listening');

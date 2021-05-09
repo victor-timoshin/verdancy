@@ -1,12 +1,13 @@
 'use strict';
 
 import { createApp } from 'vue';
-import { ENABLE_DEBUG_MODE } from '../../configuration/buildconfig';
 import { router } from '../router';
 import { FakeStorage } from '../core/storage';
 import { bus, api } from '../core/_exports';
 import SocketIOPlugin from './plugins/socket';
 import App from './views/app.vue';
+
+const buildConfg = require('../../configuration/buildconfig.js');
 
 import './entry.scss';
 
@@ -26,9 +27,9 @@ window.onload = () => {
 
 	app.use(router);
 	app.use(SocketIOPlugin, {
-		connection: ENABLE_DEBUG_MODE
-				? 'ws://localhost:8080'
-				: 'ws://verdancy.herokuapp.com/',
+		connection: buildConfg.isDebugMode
+				? `ws://127.0.0.1:${process.env.PORT}`
+				: 'ws://verdancy.herokuapp.com',
 		options: {
 			// Empty
 		}

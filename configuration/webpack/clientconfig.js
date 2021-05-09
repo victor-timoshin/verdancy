@@ -1,31 +1,26 @@
 'use strict';
 
-import * as fs from 'fs';
-import * as path from 'path';
-import webpack from 'webpack';
-import webpackMerge from 'webpack-merge';
-import TerserPlugin from 'terser-webpack-plugin';
-import MiniCssExtractPlugin from 'mini-css-extract-plugin';
-import HtmlPlugin from 'html-webpack-plugin';
-import CompressionPlugin from 'compression-webpack-plugin';
-import { VueLoaderPlugin } from 'vue-loader';
-import { ENABLE_DEBUG_MODE, buildConfg, CLIENT_PORT, SERVER_PROTOCOL, CREATOR } from '../buildconfig';
-import { ModeEnum } from './foundation/modeenum';
-import { webpackContext } from './webpackcontext';
-import { getClientBaseConfig } from './clientconfig.base';
+const fs = require('fs');
+const path = require('path');
+const webpack = require('webpack');
+const { merge } = require('webpack-merge');
+const HtmlPlugin = require('html-webpack-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+const TerserPlugin = require('terser-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CompressionPlugin = require('compression-webpack-plugin');
+const buildConfg = require('../buildconfig.js');
 
-const packageJson: any = JSON.parse(fs.readFileSync(path.resolve('./package.json')).toString());
-
-export const clientConfig: webpack.Configuration = webpackMerge(getClientBaseConfig(ModeEnum.Production), {
+module.exports = merge(require('./clientconfig.base.js')('production'), {
 	name: 'ClientConfig',
-	mode: ModeEnum.Production,
+	mode: 'production',
 	devtool: 'inline-source-map',
 	node: {
 		//fs: 'empty'
 	},
 	entry: {
 		'client': {
-			import: path.resolve(webpackContext, buildConfg.paths.src.base, 'client/entry.ts')
+			import: path.resolve(__dirname, '../../', buildConfg.paths.src.base, 'client/entry.ts')
 		}
 	},
 	output: {
@@ -85,27 +80,32 @@ export const clientConfig: webpack.Configuration = webpackMerge(getClientBaseCon
 		}),
 		new webpack.DefinePlugin({
 			'process.env': {
-				NODEENV: JSON.stringify(ModeEnum.Production),
+				NODEENV: JSON.stringify('production'),
 				BROWSER: JSON.stringify(true),
-				VERSION: JSON.stringify(packageJson.version)
+				PORT: buildConfg.realport
 			},
 			__VUE_OPTIONS_API__: true,
 			__VUE_PROD_DEVTOOLS__: true
 		}),
 		new HtmlPlugin({
 			title: '',
-			template: path.resolve(webpackContext, buildConfg.paths.src.layouts, buildConfg.tmpl.master + buildConfg.tmpl.extname),
-			filename: path.resolve(webpackContext, buildConfg.paths.output.base, buildConfg.tmpl.master + buildConfg.tmpl.extname),
+			template: path.resolve(__dirname, '../../', buildConfg.paths.src.layouts, buildConfg.tmpl.master + buildConfg.tmpl.extname),
+			filename: path.resolve(__dirname, '../../', buildConfg.paths.output.base, buildConfg.tmpl.master + buildConfg.tmpl.extname),
 			hash: false,
 			cache: true,
 			showErrors: false,
 			inject: false,
-			urlContent: (content: string) => ENABLE_DEBUG_MODE
-				? `${SERVER_PROTOCOL}://127.0.0.1:${CLIENT_PORT}/` + content
-				: `${SERVER_PROTOCOL}://verdancy.herokuapp.com/` + content,
-			metaTags: {
-				// Empty
+			injectState: {
+				INITIAL_STATE: `<script id='__INITIAL_STATE__' type='application/json'>
+					${JSON.stringify({
+						autoupdate: true,
+						symbolname: 'BTCUSDT'
+					}).replace(/</g,'\\u003c')}
+				</script>`
 			},
+			urlContent: (content) => buildConfg.isDebugMode
+				? `http://127.0.0.1:${buildConfg.realport}/` + content
+				: `http://verdancy.herokuapp.com/` + content,
 			minify: false
 		}),
 		new CompressionPlugin({

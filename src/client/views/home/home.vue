@@ -11,14 +11,14 @@
 
 			<div :class="viewstyle.stylesheet['row']">
 				<div :class="[
-					viewstyle.bem.block(viewstyle.stylesheet, 'column').element().modifiers(['lg-6', 'md-6', 'sm-6', 'xs-12']),
+					viewstyle.bem.block(viewstyle.stylesheet, 'column').element().modifiers(['lg-6', 'md-6', 'sm-12', 'xs-12']),
 					viewstyle.stylesheet['mb-md']
 				]">
 					<TableWidget :columns="datatable.columns" :data="orderbookResponse.bids" />
 				</div>
 
 				<div :class="[
-					viewstyle.bem.block(viewstyle.stylesheet, 'column').element().modifiers(['lg-6', 'md-6', 'sm-6', 'xs-12']),
+					viewstyle.bem.block(viewstyle.stylesheet, 'column').element().modifiers(['lg-6', 'md-6', 'sm-12', 'xs-12']),
 					viewstyle.stylesheet['mb-md']
 				]">
 					<TableWidget :columns="datatable.columns" :data="orderbookResponse.asks" />

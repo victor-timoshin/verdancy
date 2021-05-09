@@ -26,16 +26,15 @@
 		"vue"
 	],
 	"scripts": {
-		"clean": "node_modules/.bin/ts-node -P tsconfig.json ./bin/clean.ts",
-		"start-server:ts": "node_modules/.bin/ts-node -P tsconfig.json -r tsconfig-paths/register ./bin/server/index.ts",
+		"clean": "node ./bin/clean.js",
 		"start-server": "node ./bin/server/index.js",
-		"build-server:dev": "cross-env NODE_ENV=development AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.server.ts",
-		"build-server": "cross-env NODE_ENV=production AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.server.ts",
-		"build-client:dev": "cross-env NODE_ENV=development AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.ts",
-		"build-client": "cross-env NODE_ENV=production AUTOPREFIXER=autoplace node_modules/.bin/ts-node -P tsconfig.json ./bin/bundle.ts",
+		"build-server:dev": "cross-env NODE_ENV=development node ./bin/bundle.server.js",
+		"build-server": "cross-env NODE_ENV=production node ./bin/bundle.server.js",
+		"build-client:dev": "cross-env NODE_ENV=development node ./bin/bundle.js",
+		"build-client": "cross-env NODE_ENV=production node ./bin/bundle.js",
 		"build:dev": "npm run clean && npm run build-client:dev && npm run build-server:dev",
 		"build": "npm run clean && npm run build-client && npm run build-server",
-		"watch": "concurrently \"node_modules/.bin/ts-node -P tsconfig.json ./bin/server/hotreload.ts\" \"nodemon ./bin/server/index.ts --watch dist -e js\" --kill-others",
+		"watch": "npm run build:dev && concurrently \"node ./bin/server/hotreload.js\" \"nodemon ./bin/server --watch dst -e js\" --kill-others",
 		"tests": "jest"
 	},
 	"dependencies": {

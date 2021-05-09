@@ -67,7 +67,7 @@ export default defineComponent({
 			if (!newstream)
 				return;
 
-			if (typeof storage.autoupdate === 'boolean') {
+			if (Boolean(storage.autoupdate).valueOf()) {
 				databusService.publish('binance_depth_stream', { payload: newstream });
 				fetchDepthStream();
 			}
