@@ -8,7 +8,7 @@ import { api } from '../../../core/_exports';
 
 export default defineComponent({
 	name: 'AboutPage',
-	inject: ['binanceSocketIOProvider', 'databusService'],
+	inject: ['binanceSocketProvider', 'databusService'],
 	components: {
 		Dropdown
 	},
@@ -39,7 +39,7 @@ export default defineComponent({
 			this.binanceDropdownSymbols.placeholder = option.value;
 			this.databusService.publish('binance_active_symbol', newdata);
 			// Отправка на сервер
-			this.binanceSocketIOProvider.emit('diff_depth_stream__update_symbol', newdata);
+			this.binanceSocketProvider.emit(newdata);
 		}
 	}
 });

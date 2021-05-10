@@ -2,10 +2,9 @@
 
 import * as _ from 'underscore';
 import { defineComponent, inject, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { Socket } from 'socket.io-client';
-import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { Methodology } from '@timcowebapps/common.ooscss';
 import { api, bus, IStorage } from './../../../core/_exports';
+import { ISocketProvider } from '../../plugins/socketprovider.interface';
 import { subcomp } from '../partials/lazy/_exports';
 
 export default defineComponent({
@@ -38,9 +37,7 @@ export default defineComponent({
 		const storage = inject('storage') as IStorage;
 		const databusService = inject('databusService') as bus.IDatabusService;
 		const binanceService = inject('binanceService') as api.IBinanceService;
-		const binanceSocketIOProvider = inject('binanceSocketIOProvider') as Socket<DefaultEventsMap, DefaultEventsMap>;
-		//const binanceWSProvider = inject('binanceWSProvider') as any;
-		//binanceWSProvider.reopen('btcusdt', '1000ms');
+		const binanceSocketProvider = inject('binanceSocketProvider') as ISocketProvider;
 
 		//#endregion
 
@@ -61,7 +58,7 @@ export default defineComponent({
 
 		let fetchDepthStream = async (): Promise<void> => {
 			try {
-				orderbookResponse.value = await binanceService.fetchDepthStream(binanceSocketIOProvider);
+				orderbookResponse.value = await binanceService.fetchDepthStream(binanceSocketProvider);
 			} catch (err: any) {
 				console.log(err);
 			}
@@ -72,9 +69,7 @@ export default defineComponent({
 				return;
 
 			if (storage.symbolnameMutated) {
-				binanceSocketIOProvider.disconnect();
-				binanceSocketIOProvider.connect();
-
+				binanceSocketProvider.reopen(storage.symbolname, '1000ms');
 				storage.symbolnameMutated = false;
 			}
 

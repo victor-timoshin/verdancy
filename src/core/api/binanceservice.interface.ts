@@ -1,7 +1,6 @@
 'use strict';
 
-import { Socket } from 'socket.io-client';
-import { DefaultEventsMap } from 'socket.io/dist/typed-events';
+import { ISocketProvider } from '../../client/plugins/socketprovider.interface';
 
 export interface IOrderBookResponse {
 	bids: Array<any>;
@@ -11,5 +10,5 @@ export interface IOrderBookResponse {
 
 export interface IBinanceService {
 	fetchDepth: (endpointParams: { symbol: string, limit: number }) => Promise<IOrderBookResponse>;
-	fetchDepthStream: (socket: Socket<DefaultEventsMap, DefaultEventsMap>) => Promise<IOrderBookResponse>;
+	fetchDepthStream: (socket: ISocketProvider) => Promise<IOrderBookResponse>;
 };

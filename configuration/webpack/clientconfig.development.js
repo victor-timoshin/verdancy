@@ -81,6 +81,7 @@ module.exports = merge(require('./clientconfig.base.js')('development'), {
 			injectState: {
 				INITIAL_STATE: `<script id='__INITIAL_STATE__' type='application/json'>
 					${JSON.stringify({
+						ssr: true,
 						autoupdate: false,
 						symbolname: 'BTCUSDT'
 					}).replace(/</g,'\\u003c')}

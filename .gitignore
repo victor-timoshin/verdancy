@@ -1,4 +1,6 @@
 /node_modules
 /wwwroot/index.html
+/wwwroot/dist/server-bundle.js
 /wwwroot/dist/*.js.gz
+/wwwroot/dist/*.js.LICENSE.txt
 /wwwroot/dist/*.css.gz

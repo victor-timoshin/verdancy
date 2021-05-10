@@ -2,8 +2,7 @@
 
 import _ from 'underscore';
 import axios from 'axios';
-import { Socket } from 'socket.io-client';
-import { DefaultEventsMap } from 'socket.io/dist/typed-events';
+import { ISocketProvider } from '../../client/plugins/socketprovider.interface';
 import { IBinanceService, IOrderBookResponse } from './binanceservice.interface';
 import { OrderBookResponse } from './orderbook';
 
@@ -23,9 +22,9 @@ export class BinanceService implements IBinanceService {
 		return orderbook.data();
 	}
 
-	public fetchDepthStream = async (socket: Socket<DefaultEventsMap, DefaultEventsMap>): Promise<IOrderBookResponse> => {
-		return new Promise((resolve: (value: IOrderBookResponse | PromiseLike<IOrderBookResponse>) => void, reject: (reason?: any) => void) => {
-			socket.on('diff_depth_stream', (payload: string) => {
+	public fetchDepthStream = async (socket: ISocketProvider): Promise<IOrderBookResponse> => {
+		return await new Promise((resolve: (value: IOrderBookResponse | PromiseLike<IOrderBookResponse>) => void, reject: (reason?: any) => void) => {
+			return socket.onmessage((payload: string) => {
 				let orderbook = new OrderBookResponse(JSON.parse(payload));
 				resolve(orderbook.data());
 			});
