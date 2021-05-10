@@ -4,7 +4,8 @@ import { createApp } from 'vue';
 import { router } from '../router';
 import { FakeStorage } from '../core/storage';
 import { bus, api } from '../core/_exports';
-import SocketIOPlugin from './plugins/socket';
+import BinanceSocketIOPlugin from './plugins/binancesocketioplugin';
+import BinanceWSPlugin from './plugins/binancewsplugin';
 import App from './views/app.vue';
 
 const buildConfg = require('../../configuration/buildconfig.js');
@@ -26,13 +27,21 @@ window.onload = () => {
 	app.provide('binanceService', new api.BinanceService());
 
 	app.use(router);
-	app.use(SocketIOPlugin, {
-		connection: buildConfg.isDebugMode
+	app.use(BinanceSocketIOPlugin, {
+		connection:
+			buildConfg.isDebugMode
 				? `ws://127.0.0.1:${process.env.PORT}`
 				: 'ws://verdancy.herokuapp.com',
 		options: {
 			// Empty
 		}
 	});
+
+	app.use(BinanceWSPlugin, {
+		options: {
+			// Empty
+		}
+	});
+
 	app.mount('#root');
 };

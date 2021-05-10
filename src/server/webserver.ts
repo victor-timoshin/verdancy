@@ -8,24 +8,45 @@ import WebSocket from 'ws';
 import StrictEventEmitter from 'strict-event-emitter-types';
 import { EventEmitter } from 'events';
 import SocketIO from 'socket.io';
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
+import { DefaultEventsMap } from 'socket.io/dist/typed-events';
+import { IndexSymbolEnum, IndexSymbolUtils } from '../core/api/_exports';
 
 const buildConfg = require('../../configuration/buildconfig.js');
+
+function reconnectBinanceWS(symbol: string, onclose: (event: WebSocket.CloseEvent) => void): WebSocket {
+	const binanceWS = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol}@depth@1000ms`);
+	binanceWS.onclose = onclose;
+	binanceWS.onopen = (event: WebSocket.OpenEvent) => {
+		console.log('WebSocket connected to Binance');
+	};
+
+	return binanceWS;
+}
 
 function createSocket(server: http.Server) {
 	const socketio = new SocketIO.Server(server, {
 		path: '/socket.io'
 	});
 
-	const binanceWS = new WebSocket('wss://stream.binance.com:9443/ws/btcusdt@depth@1000ms');
-	binanceWS.on('open', () => {
-		console.log('connected to Binance');
+	let binanceWS = reconnectBinanceWS(IndexSymbolUtils.enumToStr(IndexSymbolEnum.BTCUSDT).toLowerCase(), (event: WebSocket.CloseEvent) => {
+		console.log('WebSocket disconnected from Binance');
 	});
 
 	socketio.on('connection', (socket: SocketIO.Socket<DefaultEventsMap, DefaultEventsMap>) => {
 		binanceWS.onmessage = (event: WebSocket.MessageEvent) => {
 			socket.emit('diff_depth_stream', event.data);
 		}
+
+		socket.on('diff_depth_stream__update_symbol', (message: { symbol: string }) => {
+			binanceWS.close();
+			binanceWS = reconnectBinanceWS(message.symbol.toLowerCase(), (event: WebSocket.CloseEvent) => {
+				console.log('disconnected to Binance');
+			});
+		});
+
+		socket.on('disconnect', () => {
+			// Empty
+		});
 	});
 }
 

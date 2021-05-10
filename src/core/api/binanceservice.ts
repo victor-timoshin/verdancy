@@ -3,7 +3,7 @@
 import _ from 'underscore';
 import axios from 'axios';
 import { Socket } from 'socket.io-client';
-import { DefaultEventsMap } from 'socket.io-client/build/typed-events';
+import { DefaultEventsMap } from 'socket.io/dist/typed-events';
 import { IBinanceService, IOrderBookResponse } from './binanceservice.interface';
 import { OrderBookResponse } from './orderbook';
 

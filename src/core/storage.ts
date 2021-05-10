@@ -1,14 +1,13 @@
 'use strict';
 
 import * as _ from 'underscore';
-import { Dynamic } from '@timcowebapps/common.system';
+import { IStorage } from './storage.interface';
+import { IStorageOptions } from './storageoptions';
 
-export interface IFakeStorageOptions extends Dynamic.IAnyObject {
-	state?: any;
-};
+export class FakeStorage implements IStorage {
+	private symbolnameMutated_: boolean = false;
 
-export class FakeStorage {
-	constructor(public opts: IFakeStorageOptions = {}) {
+	constructor(public opts: IStorageOptions = {}) {
 		const scriptElement = document.getElementById('__INITIAL_STATE__') as HTMLElement;
 		if (scriptElement)
 			if (typeof scriptElement.textContent === 'string')
@@ -39,5 +38,13 @@ export class FakeStorage {
 
 	public set symbolname(value: string) {
 		localStorage.symbolname = value;
+	}
+
+	public get symbolnameMutated(): boolean {
+		return this.symbolnameMutated_;
+	}
+
+	public set symbolnameMutated(value: boolean) {
+		this.symbolnameMutated_ = value;
 	}
 };
