@@ -28,7 +28,7 @@ export class BinanceWSProvider {
 		}
 
 		this.websocket_! = new WebSocket((this.endpoint_ as String).format(symbol, tick));
-		this.websocket_!.addEventListener('open', (event: any) => console.log('connected to Binance WebSocket'));
+		this.websocket_!.addEventListener('open', (event: any) => console.log('WebSocket disconnected from Binance'));
 		this.websocket_!.addEventListener('message', (event: any) => {
 			console.log('diff_depth_stream', event.data);
 		});

@@ -14,7 +14,11 @@ import { IndexSymbolEnum, IndexSymbolUtils } from '../core/api/_exports';
 const buildConfg = require('../../configuration/buildconfig.js');
 
 function reconnectBinanceWS(symbol: string, onclose: (event: WebSocket.CloseEvent) => void): WebSocket {
-	const binanceWS = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol}@depth@1000ms`);
+	const binanceWS = new WebSocket(`wss://stream.binance.com:9443/ws/${symbol}@depth@1000ms`, {
+		headers: {
+			'Access-Control-Allow-Origin': '*'
+		}
+	});
 	binanceWS.onclose = onclose;
 	binanceWS.onopen = (event: WebSocket.OpenEvent) => {
 		console.log('WebSocket connected to Binance');
@@ -40,7 +44,7 @@ function createSocket(server: http.Server) {
 		socket.on('diff_depth_stream__update_symbol', (message: { symbol: string }) => {
 			binanceWS.close();
 			binanceWS = reconnectBinanceWS(message.symbol.toLowerCase(), (event: WebSocket.CloseEvent) => {
-				console.log('disconnected to Binance');
+				console.log('WebSocket disconnected from Binance');
 			});
 		});
 
@@ -59,11 +63,25 @@ interface IHttpServer {
 };
 
 class HttpServer implements IHttpServer {
-	public process(request: http.IncomingMessage, response: http.ServerResponse): void {
-		let filePath = '.' + request.url;
-		if (_.contains(filePath.split('/'), 'dist')) {
+	private setCSP_(response: http.ServerResponse) {
+		response.setHeader('Content-Security-Policy',
+			'connect-src \'self\' https://api.binance.com/ wss://stream.binance.com:9443/;' +
+			'default-src \'self\' http://verdancy.herokuapp.com/;' +
+			'script-src \'self\' http://verdancy.herokuapp.com/;' +
+			'style-src \'self\' http://verdancy.herokuapp.com/ https://fonts.googleapis.com/ \'unsafe-inline\';' +
+			'font-src \'self\' https://fonts.gstatic.com/;' +
+			'img-src \'self\';' +
+			'frame-src \'self\';'
+		);
+	}
+
+	private addStaticPath_(request: http.IncomingMessage, response: http.ServerResponse, pathSegment: string): void {
+		let filepath = '.' + request.url;
+
+		// TODO: рука/лицо)
+		if (_.contains(filepath.split('/'), 'dist')) {
 			let contentType = 'text/html';
-			switch (path.extname(filePath)) {
+			switch (path.extname(filepath)) {
 				case '.js':
 					contentType = 'text/javascript';
 					break;
@@ -75,13 +93,17 @@ class HttpServer implements IHttpServer {
 					break;
 			}
 
-			var file = fs.readFileSync(path.resolve(process.cwd(), buildConfg.paths.output.dist, path.parse(filePath).base), {
-				encoding: 'utf8'
-			});
-
 			response.writeHead(200, { 'Content-type': contentType });
-			response.end(file);
+			response.end(fs.readFileSync(path.resolve(process.cwd(), pathSegment, path.parse(filepath).base), {
+				encoding: 'utf8'
+			}));
 		}
+	}
+
+	// TODO: глубокое синее море
+	public process(request: http.IncomingMessage, response: http.ServerResponse): void {
+		this.setCSP_(response);
+		this.addStaticPath_(request, response, buildConfg.paths.output.dist);
 
 		if (request.url === '/') {
 			if (fs.existsSync(path.resolve(process.cwd(), buildConfg.paths.output.base))) {

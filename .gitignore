@@ -1,2 +1,4 @@
-node_modules/
-wwwroot/
+/node_modules
+/wwwroot/index.html
+/wwwroot/dist/*.js.gz
+/wwwroot/dist/*.css.gz
