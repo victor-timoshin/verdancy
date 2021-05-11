@@ -2,16 +2,14 @@
 
 import * as _ from 'underscore';
 import { defineComponent } from 'vue';
-import Dropdown from '@components/dropdown/dropdown.vue';
 import { Methodology } from '@timcowebapps/common.ooscss';
 import { api } from '../../../core/_exports';
+import { subcomp } from '../partials/lazy/_exports';
 
 export default defineComponent({
 	name: 'AboutPage',
 	inject: ['binanceSocketProvider', 'databusService'],
-	components: {
-		Dropdown
-	},
+	components: subcomp.SubcomponentLoadable.dynamicImport(),
 	data(): any {
 		return {
 			viewstyle: {

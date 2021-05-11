@@ -2,9 +2,10 @@
 
 import { defineComponent } from 'vue';
 import { Methodology } from '@timcowebapps/common.ooscss';
+import { subcomp } from '../../../partials/lazy/_exports';
 
 export default defineComponent({
-	name: 'DropDown',
+	name: subcomp.SubcomponentNameUtils.enumToStr(subcomp.SubcomponentNameEnum.DropdownWidget),
 	props: {
 		defaultState: {
 			type: Boolean,
@@ -14,7 +15,10 @@ export default defineComponent({
 			type: Object,
 			default: {
 				placeholder: '--Please Select--',
-				options: []
+				options: {
+					type: Array,
+					default: () => []
+				}
 			}
 		}
 	},
@@ -22,7 +26,7 @@ export default defineComponent({
 	data(): any {
 		return {
 			viewstyle: {
-				stylesheet: require('./dropdown.scss').default,
+				stylesheet: require('./dropdownwidget.scss').default,
 				bem: Methodology.Bem.Entities
 			},
 			currentState: this.defaultState

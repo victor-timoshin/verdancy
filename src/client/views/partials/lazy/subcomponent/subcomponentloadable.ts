@@ -18,10 +18,11 @@ export class SubcomponentLoadable {
 			return context.keys().map((file: string) => file.replace(/(^.\/)|(\.vue$)/g, ''));
 		}
 
-		subcomponentFilenames(require.context('@components', true, /\.vue$/i, 'sync')).forEach((subcomponent: string) => {
+		subcomponentFilenames(require.context('@components/dynamics', true, /\.vue$/i, 'sync')).forEach((subcomponent: string) => {
 			let subcomponentSegments = subcomponent.split('/');
 			let subcomponentName = subcomponentSegments[subcomponentSegments.length - 1];
 			_.each(_.invoke(SubcomponentNameUtils.enumToArr(), 'toLowerCase'), (name: string, idx: number) => { 
+				console.log(name, subcomponentName);
 				if (_.isEqual(name, subcomponentName)) {
 					subcomponents[SubcomponentNameUtils.enumToArr()[idx]] =
 						defineAsyncComponent({
@@ -33,7 +34,7 @@ export class SubcomponentLoadable {
 											/* webpackChunkName: `chunk-${subcomponentName}` */
 											/* webpackExports: ["default", "named"] */
 											/* webpackMode: "lazy" */
-											`@components/${subcomponent}.vue`).then(module => {
+											`@components/dynamics/${subcomponent}.vue`).then(module => {
 												return module.default;
 											})
 										)

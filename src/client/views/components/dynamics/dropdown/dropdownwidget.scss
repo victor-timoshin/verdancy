@@ -1,7 +1,7 @@
 @import '~timcowebapps/common.utils/src/unit/converters';
 @import '~timcowebapps/common.ooscss/src/methodology/bem/index';
 
-@import './../../../entry-vars';
+@import './../../../../entry-vars';
 
 $dropdown-trigger-height: px_to_rem(40px, $body-fontSize);
 $dropdown-listitem-height: $dropdown-trigger-height;

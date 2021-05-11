@@ -7,7 +7,6 @@ import { BinanceWSProvider } from './binancewsprovider';
 
 export default {
 	install: (app: App<Element>, { options }) => {
-		console.log(Boolean(options.useServe).valueOf());
 		const socket: ISocketProvider = Boolean(options.useServe).valueOf()
 			? new BinanceSocketIOProvider()
 			: new BinanceWSProvider();

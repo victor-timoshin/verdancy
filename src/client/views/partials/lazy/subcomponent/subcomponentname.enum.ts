@@ -1,7 +1,8 @@
 'use strict';
 
 export enum SubcomponentNameEnum {
-	TableWidget = 0
+	TableWidget = 0,
+	DropdownWidget = 1
 };
 
 export namespace SubcomponentNameUtils {

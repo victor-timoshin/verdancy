@@ -53,9 +53,15 @@ module.exports = merge(require('./clientconfig.base.js')('production'), {
 					chunks: 'initial',
 					reuseExistingChunk: true
 				},
-				components: {
+				dropdownwidget: {
+					name: 'chunk-dropdownwidget',
+					test: /[\\/]src[\\/]client[\\/]views[\\/]components[\\/]dynamics[\\/]dropdown[\\/]/,
+					chunks: 'all',
+					enforce: true
+				},
+				tablewidget: {
 					name: 'chunk-tablewidget',
-					test: /[\\/]src[\\/]client[\\/]views[\\/]components[\\/]dynamics[\\/]/,
+					test: /[\\/]src[\\/]client[\\/]views[\\/]components[\\/]dynamics[\\/]table[\\/]/,
 					chunks: 'all',
 					enforce: true
 				}

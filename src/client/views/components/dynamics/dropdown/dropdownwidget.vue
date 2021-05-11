@@ -1,4 +1,4 @@
-<!-- src/client/views/components/dropdown/dropdown.vue -->
+<!-- src/client/views/components/dynamics/dropdown/dropdownwidget.vue -->
 
 <template>
 	<div :class="viewstyle.stylesheet['dropdown']" @click="handleClick">
@@ -14,4 +14,4 @@
 	</div>
 </template>
 
-<script src="./dropdown.ts" lang="ts"></script>
+<script src="./dropdownwidget.ts" lang="ts"></script>
