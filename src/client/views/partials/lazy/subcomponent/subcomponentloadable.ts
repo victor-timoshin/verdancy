@@ -21,8 +21,7 @@ export class SubcomponentLoadable {
 		subcomponentFilenames(require.context('@components/dynamics', true, /\.vue$/i, 'sync')).forEach((subcomponent: string) => {
 			let subcomponentSegments = subcomponent.split('/');
 			let subcomponentName = subcomponentSegments[subcomponentSegments.length - 1];
-			_.each(_.invoke(SubcomponentNameUtils.enumToArr(), 'toLowerCase'), (name: string, idx: number) => { 
-				console.log(name, subcomponentName);
+			_.each(_.invoke(SubcomponentNameUtils.enumToArr(), 'toLowerCase'), (name: string, idx: number) => {
 				if (_.isEqual(name, subcomponentName)) {
 					subcomponents[SubcomponentNameUtils.enumToArr()[idx]] =
 						defineAsyncComponent({

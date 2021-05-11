@@ -31,7 +31,7 @@ window.onload = () => {
 	app.provide('databusService', new bus.DatabusService());
 	app.provide('binanceService', new api.BinanceService());
 
-	app.use(router);
+	app.use(router(state));
 	app.use(SocketPlugin, {
 		options: {
 			useServe: state.ssr
